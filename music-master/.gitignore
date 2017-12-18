@@ -9,6 +9,9 @@
 # production
 /build
 
+# secret token
+/src/shared
+
 # misc
 .DS_Store
 .env.local

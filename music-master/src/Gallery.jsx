@@ -13,8 +13,9 @@ class Gallery extends Component {
   }
 
   playAudio(previewUrl) {
+    console.log(previewUrl);
     let audio = new Audio(previewUrl);
-    audio.play();
+    
     if (!this.state.playing) {
       audio.play();
       this.setState({

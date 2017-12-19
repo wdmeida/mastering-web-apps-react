@@ -7,6 +7,7 @@ import {
   Glyphicon
 } from 'react-bootstrap';
 
+import Gallery from './Gallery';
 import Profile from './Profile';
 
 import { AUTHORIZATION_TOKEN } from './shared/secret_spotify_token';
@@ -17,18 +18,20 @@ class App extends Component {
     super(props);
     this.state = {
       query: '',
-      artist: null
+      artist: null,
+      tracks: []
     }
   }
 
   search() {
     const BASE_URL = 'https://api.spotify.com/v1/search?';
-    const FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
+    let FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
+    const ALBUM_URL =  'https://api.spotify.com/v1/artists/';
 
     const myOptions = {
       method: 'GET',
       headers: {
-        'Authorization': AUTHORIZATION_TOKEN,
+        'Authorization': `Bearer ${AUTHORIZATION_TOKEN}`,
       },
       mode: 'cors',
       cache: 'default'
@@ -38,8 +41,16 @@ class App extends Component {
       .then(response => response.json())
       .then(json => {
         const artist = json.artists.items[0];
-        console.log('artist', artist);
         this.setState({ artist });
+
+        FETCH_URL = `${ALBUM_URL}${artist.id}/top-tracks?country=US&`;
+        
+        fetch(FETCH_URL, myOptions)
+          .then(response => response.json())
+          .then(json => {
+            const { tracks } = json;
+            this.setState({tracks});
+          })
       });
   }
 
@@ -65,12 +76,18 @@ class App extends Component {
             </InputGroup.Addon>
           </InputGroup>
         </FormGroup>
-        <Profile 
-          artist={this.state.artist}
-        />
-        <div className="Galery">
-          Gallery
-        </div>
+        {
+          this.state.artist !== null 
+          ? <div>
+              <Profile 
+                artist={this.state.artist}
+              />
+              <Gallery 
+                tracks={this.state.tracks}
+              />
+            </div>
+          : <div></div>
+        }
       </div>
     );
   }

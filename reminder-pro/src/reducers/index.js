@@ -4,15 +4,16 @@ import {
 } from '../constants';
 
 const reminder = (action) => {
+  const { text, dueDate } = action;
   return {
     id: Math.random(),
-    text: action.text
+    text,
+    dueDate
   }
 }
 
 const removeById = (state = [], id) => {
   const reminders = state.filter(reminder => reminder.id !== id);
-  console.log('new reducerd reminders', reminders);
   return reminders;
 }
 
@@ -21,7 +22,6 @@ const reminders = (state = [], action) => {
   switch(action.type) {
     case ADD_REMINDER:
       reminders = [...state, reminder(action)];
-      console.log('reminders as state', reminders);
       return reminders;
     case DELETE_REMINDER:
       reminders = removeById(state, action.id);

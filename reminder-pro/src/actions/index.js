@@ -3,16 +3,13 @@ import {
   DELETE_REMINDER
 } from '../constants';
 
-export const addReminder = text => ({
+export const addReminder = (text, dueDate) => ({
     type: ADD_REMINDER,
-    text
+    text,
+    dueDate
 });
 
-export const deleteReminder = id => {
-  const action = {
-    type: DELETE_REMINDER,
-    id
-  }
-  console.log('deleting in action', action);
-  return action;
-}
+export const deleteReminder = id => ({
+  type: DELETE_REMINDER,
+  id
+});

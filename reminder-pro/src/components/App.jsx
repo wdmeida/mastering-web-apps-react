@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { 
   addReminder,
+  clearReminders,
   deleteReminder 
 } from '../actions';
 
@@ -80,6 +81,12 @@ class App extends Component {
           </button>
         </div>
         { this.renderReminders() }
+        <div 
+          className="btn btn-danger"
+          onClick={() => this.props.clearReminders()}
+        >
+          Clear Reminders
+        </div>
       </div>
     );
   }
@@ -91,7 +98,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => (
   bindActionCreators({
-    addReminder, deleteReminder
+    addReminder, clearReminders ,deleteReminder
   }, dispatch)
 )
 

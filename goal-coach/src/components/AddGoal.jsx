@@ -13,7 +13,7 @@ class AddGoal extends Component {
   addGoal() {
     console.log('this', this);
     const { title } = this.state;
-    const { email } = this.props;
+    const { email } = this.props.user;
     goalRef.push({email, title});
   }
 
@@ -42,9 +42,10 @@ class AddGoal extends Component {
 }
 
 const mapStateToProps = state => {
-  const { email } = state;
+  const { user } = state;
+  console.log('state in AddGoal.jsx', state);
   return {
-    email
+    user
   }
 }
 
